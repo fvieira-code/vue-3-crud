@@ -1,23 +1,7 @@
 import { createWebHistory, createRouter } from "vue-router";
 
 const routes = [
-  // {
-  //   path: "/",
-  //   alias: "/atividades",
-  //   name: "atividades",
-  //   component: () => import("./components/TutorialsList"),
-  // },
-  // {
-  //   path: "/tutorials/:id",
-  //   name: "tutorial-details",
-  //   component: () => import("./components/Tutorial"),
-  // },
-  // {
-  //   path: "/add",
-  //   name: "add",
-  //   component: () => import("./components/AddTutorial"),
-  // },
-  {
+  /*{
     path: "/",
     alias: "/atividades",
     name: "atividades",
@@ -29,10 +13,58 @@ const routes = [
     component: () => import("./components/Atividade"),
   },
   {
-    path: "/add",
-    name: "add",
+    path: "/atividade/adicionar",
+    name: "atividade-add",
     component: () => import("./components/AtividadeAdd"),
+  },*/
+  {
+    path: "/",
+    alias: "/consultores",
+    name: "consultores",
+    component: () => import("./components/ConsultorList"),
   },
+  {
+    path: "/consultores/:idConsultor",
+    name: "consultor-detalhe",
+    component: () => import("./components/Consultor"),
+  },
+  {
+    path: "/consultor/adicionar",
+    name: "consultor-add",
+    component: () => import("./components/ConsultorAdd"),
+  },
+  {
+    path: "/",
+    alias: "/clientes",
+    name: "clientes",
+    component: () => import("./components/ClienteList"),
+  },
+  {
+    path: "/clientes/:idCliente",
+    name: "cliente-detalhe",
+    component: () => import("./components/Cliente"),
+  },
+  {
+    path: "/cliente/adicionar",
+    name: "cliente-add",
+    component: () => import("./components/ClienteAdd"),
+  },
+  {
+    path: "/",
+    alias: "/pontos",
+    name: "pontos",
+    component: () => import("./components/PontoList"),
+  },
+  /*{
+    path: "/pontos/:idPonto",
+    name: "ponto-detalhe",
+    component: () => import("./components/Ponto"),
+  },
+  {
+    path: "/ponto/adicionar",
+    name: "ponto-add",
+    component: () => import("./components/PontoAdd"),
+  },*/
 ];
 
 const router = createRouter({

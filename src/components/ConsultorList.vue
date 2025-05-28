@@ -5,14 +5,14 @@
         <input
           type="text"
           class="form-control"
-          placeholder="Pesquisar por descrição"
-          v-model="descricaoAtividade"
+          placeholder="Pesquisar por nome"
+          v-model="nomeConsultor"
         />
         <div class="input-group-append">
           <button
             class="btn btn-outline-secondary"
             type="button"
-            @click="searchDescricao"
+            @click="searchNome"
           >
             Pesquisar
           </button>
@@ -20,92 +20,94 @@
       </div>
     </div>
     <div class="col-md-6">
-      <h4>Lista de Atividades</h4>
+      <h4>Lista de Consultores</h4>
       <ul class="list-group">
         <li
           class="list-group-item"
           :class="{ active: index == currentIndex }"
-          v-for="(atividade, index) in atividades"
+          v-for="(consultor, index) in consultores"
           :key="index"
           @click="
-            setActiveAtividade(atividade, index);
+            setActiveConsultor(consultor, index);
             active;
           "
         >
-          {{ atividade.descricaoAtividade }}
+          {{ consultor.nomeConsultor }}
         </li>
       </ul>
-      <button class="m-3 btn btn-sm btn-danger" @click="removeAllAtividades">
-        Excluir Todas
+      <button class="m-3 btn btn-sm btn-danger" @click="removeAllConsultores">
+        Excluir Todos
       </button>
     </div>
     <div class="col-md-6">
-      <div v-if="currentAtividade">
-        <h4>Atividade</h4>
+      <div v-if="currentConsultor">
+        <h4>Consultores</h4>
         <div>
-          <label><strong>Descrição:</strong></label>
-          {{ currentAtividade.descricaoAtividade }}
+          <label><strong>Nome:</strong></label>
+          {{ currentConsultor.nomeConsultor }}
         </div>
         <div>
-          <label><strong>Ticket:</strong></label>
-          {{ currentAtividade.ticketAtividade }}
+          <label><strong>CPF:</strong></label>
+          {{ currentConsultor.cpfConsultor }}
         </div>
         <div>
-          <label><strong>Status:</strong></label>
-          {{ currentAtividade.statusAtividade }}
+          <label><strong>RG:</strong></label>
+          {{ currentConsultor.rgConsultor }}
+        </div>
+        <div>
+          <label><strong>Endereço:</strong></label>
+          {{ currentConsultor.enderecoConsultor }}
         </div>
         <router-link
-          :to="'/atividades/' + currentAtividade.idAtividade"
+          :to="'/consultores/' + currentConsultor.idConsultor"
           class="badge badge-warning"
-          >Edit</router-link
+          >Edita</router-link
         >
       </div>
       <div v-else>
         <br />
-        <p>Escolha uma atividade</p>
+        <p>Escolha um consultor.</p>
       </div>
     </div>
   </div>
 </template>
-
 <script>
-import AtividadeService from "../services/AtividadeService";
+import ConsultorService from "../services/ConsultorService";
 
 export default {
-  name: "atividades-list",
+  name: "consultores-list",
   data() {
     return {
-      atividades: [],
-      currentAtividade: null,
+      consultores: [],
+      currentConsultor: null,
       currentIndex: -1,
-      descricao_atividade: "",
+      nomeConsultor: "",
     };
   },
   methods: {
-    retrieveAtividades() {
-      AtividadeService.listar()
+    retrieveConsultores() {
+      ConsultorService.listar()
         .then((response) => {
-          this.atividades = response.data;
+          this.consultores = response.data;
           console.log(response.data);
         })
         .catch((e) => {
           console.log(e);
         });
     },
-
     refreshList() {
-      this.retrieveAtividades();
-      this.currentAtividade = null;
+      this.retrieveConsultores();
+      this.currentConsultor = null;
       this.currentIndex = -1;
     },
 
-    setActiveAtividade(atividade, index) {
-      this.currentAtividade = atividade;
-      this.currentIndex = atividade ? index : -1;
+    setActiveConsultor(consultor, index) {
+      this.currentConsultor = consultor;
+      this.currentIndex = consultor ? index : -1;
     },
 
-    removeAllAtividades() {
-      AtividadeService.excluirTodas()
+    removeAllConsultores() {
+      ConsultorService.excluirTodas()
         .then((response) => {
           console.log(response.data);
           this.refreshList();
@@ -115,11 +117,11 @@ export default {
         });
     },
 
-    searchDescricao() {
-      AtividadeService.listarPorDescricao(this.descricaoAtividade)
+    searchNome() {
+      ConsultorService.listarPorNome(this.nomeConsultor)
         .then((response) => {
-          this.atividades = response.data;
-          this.setActiveAtividade(null);
+          this.consultores = response.data;
+          this.setActiveConsultor(null);
           console.log(response.data);
         })
         .catch((e) => {
@@ -128,7 +130,7 @@ export default {
     },
   },
   mounted() {
-    this.retrieveAtividades();
+    this.retrieveConsultores();
   },
 };
 </script>

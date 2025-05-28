@@ -5,14 +5,14 @@
         <input
           type="text"
           class="form-control"
-          placeholder="Pesquisar por descrição"
-          v-model="descricaoAtividade"
+          placeholder="Pesquisar por razão social"
+          v-model="razaoSocialCliente"
         />
         <div class="input-group-append">
           <button
             class="btn btn-outline-secondary"
             type="button"
-            @click="searchDescricao"
+            @click="searchRazaoSocial"
           >
             Pesquisar
           </button>
@@ -20,92 +20,94 @@
       </div>
     </div>
     <div class="col-md-6">
-      <h4>Lista de Atividades</h4>
+      <h4>Lista de Clientes</h4>
       <ul class="list-group">
         <li
           class="list-group-item"
           :class="{ active: index == currentIndex }"
-          v-for="(atividade, index) in atividades"
+          v-for="(cliente, index) in clientes"
           :key="index"
           @click="
-            setActiveAtividade(atividade, index);
+            setActiveCliente(cliente, index);
             active;
           "
         >
-          {{ atividade.descricaoAtividade }}
+          {{ cliente.razaoSocialCliente }}
         </li>
       </ul>
-      <button class="m-3 btn btn-sm btn-danger" @click="removeAllAtividades">
-        Excluir Todas
+      <button class="m-3 btn btn-sm btn-danger" @click="removeAllClientes">
+        Excluir Todos
       </button>
     </div>
     <div class="col-md-6">
-      <div v-if="currentAtividade">
-        <h4>Atividade</h4>
+      <div v-if="currentCliente">
+        <h4>Clientes</h4>
         <div>
-          <label><strong>Descrição:</strong></label>
-          {{ currentAtividade.descricaoAtividade }}
+          <label><strong>Razão Social:</strong></label>
+          {{ currentCliente.razaoSocialCliente }}
         </div>
         <div>
-          <label><strong>Ticket:</strong></label>
-          {{ currentAtividade.ticketAtividade }}
+          <label><strong>Nome Fantasia:</strong></label>
+          {{ currentCliente.nomeFantasiaCliente }}
         </div>
         <div>
-          <label><strong>Status:</strong></label>
-          {{ currentAtividade.statusAtividade }}
+          <label><strong>CNPJ:</strong></label>
+          {{ currentCliente.cnpjCliente }}
+        </div>
+        <div>
+          <label><strong>Endereço:</strong></label>
+          {{ currentCliente.enderecoCliente }}
         </div>
         <router-link
-          :to="'/atividades/' + currentAtividade.idAtividade"
+          :to="'/clientes/' + currentCliente.idCliente"
           class="badge badge-warning"
-          >Edit</router-link
+          >Edita</router-link
         >
       </div>
       <div v-else>
         <br />
-        <p>Escolha uma atividade</p>
+        <p>Escolha um cliente.</p>
       </div>
     </div>
   </div>
 </template>
-
 <script>
-import AtividadeService from "../services/AtividadeService";
+import ClienteService from "../services/ClienteService";
 
 export default {
-  name: "atividades-list",
+  name: "clientes-list",
   data() {
     return {
-      atividades: [],
-      currentAtividade: null,
+      clientes: [],
+      currentCliente: null,
       currentIndex: -1,
-      descricao_atividade: "",
+      razaoSocialCliente: "",
     };
   },
   methods: {
-    retrieveAtividades() {
-      AtividadeService.listar()
+    retrieveClientes() {
+      ClienteService.listar()
         .then((response) => {
-          this.atividades = response.data;
+          this.clientes = response.data;
           console.log(response.data);
         })
         .catch((e) => {
           console.log(e);
         });
     },
-
     refreshList() {
-      this.retrieveAtividades();
-      this.currentAtividade = null;
+      this.retrieveClientes();
+      this.currentCliente = null;
       this.currentIndex = -1;
     },
 
-    setActiveAtividade(atividade, index) {
-      this.currentAtividade = atividade;
-      this.currentIndex = atividade ? index : -1;
+    setActiveCliente(cliente, index) {
+      this.currentCliente = cliente;
+      this.currentIndex = cliente ? index : -1;
     },
 
-    removeAllAtividades() {
-      AtividadeService.excluirTodas()
+    removeAllClientes() {
+      ClienteService.excluirTodas()
         .then((response) => {
           console.log(response.data);
           this.refreshList();
@@ -115,11 +117,11 @@ export default {
         });
     },
 
-    searchDescricao() {
-      AtividadeService.listarPorDescricao(this.descricaoAtividade)
+    searchRazaoSocial() {
+      ClienteService.listarPorRazaoSocial(this.razaoSocialCliente)
         .then((response) => {
-          this.atividades = response.data;
-          this.setActiveAtividade(null);
+          this.clientes = response.data;
+          this.setActiveCliente(null);
           console.log(response.data);
         })
         .catch((e) => {
@@ -128,7 +130,7 @@ export default {
     },
   },
   mounted() {
-    this.retrieveAtividades();
+    this.retrieveClientes();
   },
 };
 </script>

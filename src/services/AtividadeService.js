@@ -36,18 +36,6 @@ class AtividadeService {
   listarPorId(id) {
     return http.get(`/atividades/${id}`);
   }
-
-  /*listarPorId(id) {
-    return http.get(`/atividades/${id}`);
-  }
-
-  deleteAll() {
-    return http.delete(`/tutorials`);
-  }
-
-  findByTitle(title) {
-    return http.get(`/tutorials?title=${title}`);
-  }*/
 }
 
 export default new AtividadeService();

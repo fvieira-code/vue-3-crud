@@ -24,7 +24,7 @@
         />
       </div>
 
-      <button @click="saveAtividade" class="btn btn-success">Salvar</button>
+      <button @click="salvar" class="btn btn-success">Salvar</button>
     </div>
 
     <div v-else>
@@ -58,7 +58,7 @@ export default {
         statusAtividade: this.atividade.statusAtividade,
       };
 
-      AtividadeService.create(data)
+      AtividadeService.salvar(data)
         .then((response) => {
           this.atividade.id = response.data.id;
           console.log(response.data);
